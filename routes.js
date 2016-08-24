@@ -1,4 +1,5 @@
 const Index = require('./controllers/index');
+const User = require('./controllers/user');
 
 class Routes {
     static setup(app) {
@@ -6,10 +7,10 @@ class Routes {
         app.get('/', Index.show);
 
         // GET REQUESTS
-        // app.get('', {Function});
+        app.get('/user/:guid', User.getByGuid);
 
         // POST REQUESTS
-        // app.post('', {FUNCTION});
+        app.post('/user/:userId/generate', User.generateGuid);
     }
 }
 
