@@ -1,0 +1,10 @@
+{
+  "name": "calling-card-api",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0"
+  }
+}
