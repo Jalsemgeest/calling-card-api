@@ -3,7 +3,7 @@ const guid = require('guid');
 
 class UtilityService {
     static getGuid() {
-        return guid.create();
+        return guid.create().toString();
     }
 }
 

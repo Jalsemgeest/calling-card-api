@@ -10,7 +10,7 @@ class Routes {
         app.get('/user/:guid', User.getByGuid);
 
         // POST REQUESTS
-        app.post('/user/:userId/generate', User.generateGuid);
+        app.post('/user/:userGuid/generate', User.generateGuid);
     }
 }
 

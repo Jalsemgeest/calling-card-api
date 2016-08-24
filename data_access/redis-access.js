@@ -2,8 +2,8 @@
 const Redis = require('../services/redis-wrapper');
 
 class RedisAccess {
-    static setUser(guid) {
-
+    static setUser(guid, userId) {
+        return Redis.set(guid, userId);
     }
 
     static getUser(guid) {

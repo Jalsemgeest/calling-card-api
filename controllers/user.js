@@ -7,9 +7,19 @@ class UserService {
     static getByGuid(req, res) {
         let userRequest = new UserRequest(req);
 
-        console.log(userRequest.guid);
-
-        res.send(`<h1>Hello ${userRequest.guid}</h1>`);
+        if (userRequest.validate()) {
+            RedisAccess.getUser(userRequest.guid)
+                .then((response) => {
+                    res.send(response);
+                    return;
+                }, (err) => {
+                    res.status(404).send(err);
+                    return;
+                })
+        } else {
+            res.status(404).send("Invalid call.");
+            return;
+        }
     }
 
     static generateGuid(req, res) {
@@ -18,12 +28,28 @@ class UserService {
         if (generateRequest.validate()) {
             let guid = UtilityService.getGuid();
 
-            RedisAccess.getUser(guid).then((response) => {
-                console.log(response);
-                res.send(guid);
+            RedisAccess.getUser(guid).then((data) => {
+                if (!data) {
+                    RedisAccess.setUser(guid, generateRequest.userId)
+                        .then((data) => {
+                            res.send(guid);
+                            return;
+                        }, (err) => {
+                            res.status(404).send(err);
+                            return;
+                        });
+                } else {
+                    res.send(guid);
+                    return;
+                }
+            }, (err) => {
+                console.log(err);
+                res.status(404).send(err);
+                return;
             });
         } else {
             res.status(404).send("Invalid call.");
+            return;
         }
     }
 }
